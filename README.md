@@ -2,7 +2,9 @@
 new new line!  
 new line 123!  
 look git diff  
-new line 31.10.21 14:18
+new line 31.10.21 14:18  
+new line 31.10.21 14:36
+
 
 Каталог проекта:  
 В корневом каталоге (netology.devops.pub) проекта игнорироваться ничего не будет т.к. скрытый файл .gitignore пуст
