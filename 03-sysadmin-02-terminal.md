@@ -82,30 +82,53 @@ lrwx------ 1 gnoy gnoy 64 Nov 15 21:47 5 -> /dev/pts/1
 gnoy@LAPTOP-CHVMGVOQ:~$ echo netology > /proc/$$/fd/5
 netology
 ```
+###Работа над ошибками
 8. Получится ли в качестве входного потока для pipe использовать только stderr команды, не потеряв при этом отображение stdout на pty? Напоминаем: по умолчанию через pipe передается только stdout команды слева от `|` на stdin команды справа.
 Это можно сделать, поменяв стандартные потоки местами через промежуточный новый дескриптор, который вы научились создавать в предыдущем вопросе.  
-Ответ: Наверное, можно так...
+Ответ: Спасибо на ссылку со статьей! Теперь должно быть правильно :)
 ```bash
-vagrant@vagrant:~$ bash 5>&1
-vagrant@vagrant:~$ ls -lh /proc/$$/fd/
-total 0
-lrwx------ 1 vagrant vagrant 64 ноя 17 20:24 0 -> /dev/pts/0
-lrwx------ 1 vagrant vagrant 64 ноя 17 20:24 1 -> /dev/pts/0
-lrwx------ 1 vagrant vagrant 64 ноя 17 20:24 2 -> /dev/pts/0
-lrwx------ 1 vagrant vagrant 64 ноя 17 20:24 255 -> /dev/pts/0
-lrwx------ 1 vagrant vagrant 64 ноя 17 20:24 5 -> /dev/pts/0
-vagrant@vagrant:~$ ls dfhbvdfhbshbfvlsd 2>&1 | tr <5 '[:lower:]' '[:upper:]'
-LS: CANNOT ACCESS 'DFHBVDFHBSHBFVLSD': NO SUCH FILE OR DIRECTORY
+vagrant@vagrant:~$ bash 1>&3
+vagrant@vagrant:~$ ls bla-bla-bla /home/vagrant/new_file.txt 2>&1 >&3 | tr '[:lower:]' '[:upper:]'
+/home/vagrant/new_file.txt
+LS: CANNOT ACCESS 'BLA-BLA-BLA': NO SUCH FILE OR DIRECTORY
 ```
+###Работа над ошибками
 9. Что выведет команда `cat /proc/$$/environ`? Как еще можно получить аналогичный по содержанию вывод?  
-Ответ:
+Ответ: Да, в первые секунды после прочтения задания я подумал о `env`, перечитав задание обратил внимание на слово `аналогичный` и тут "Остапа понесло"... Первая команда (`cat /proc/$$/environ`) выводит все в одну строку, а вторая (`env`) "по человечьи" :)
 ```bash
-cat /proc/$$/environ
-SHELL=/bin/bashWSL_DISTRO_NAME=UbuntuNAME=LAPTOP-CHVMGVOQPWD=/mnt/c/Users/Gnoy/OneDrive/7496~1/MobaXterm/slash/gnoy_laptopchvmgvoq/binLOGNAME=gnoyHOME=/home/gnoyLANG=C.UTF-8WSL_INTEROP=/run/WSL/909_interopWAYLAND_DISPLAY=wayland-0TERM=xterm-256colorUSER=gnoyDISPLAY=localhost:10.0SHLVL=0XDG_RUNTIME_DIR=/mnt/wslg/runtime-dirWSLENV=PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.UbuntuonWindows_2004.2021.825.0_x64__79rhkp1fndgsc:/mnt/c/Users/Gnoy/OneDrive/7496~1/MobaXterm/slash/gnoy_laptopchvmgvoq/bin:/mnt/c/WINDOWS/:/mnt/c/WINDOWS/system32/:/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/Gnoy/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/JetBrains/PyCharm Community Edition 2021.2.2/bin:/mnt/c/WINDOWS/sysnative/HOSTTYPE=x86_64PULSE_SERVER=/mnt/wslg/PulseServer_=./wslconnectLIBGL_ALWAYS_INDIRECT=1SSH_TTY=/dev/pts/2SSH_CONNECTION=127.0.0.1 53558 127.0.0.1 22030SSH_CLIENT=127.0.0.1 53558 22030
-Как вариант так:
-gnoy@LAPTOP-CHVMGVOQ:~$ ps e -ww -p $$
-  PID TTY      STAT   TIME COMMAND
-  912 pts/2    Ss     0:00 -bash SHELL=/bin/bash WSL_DISTRO_NAME=Ubuntu NAME=LAPTOP-CHVMGVOQ PWD=/mnt/c/Users/Gnoy/OneDrive/7496~1/MobaXterm/slash/gnoy_laptopchvmgvoq/bin LOGNAME=gnoy HOME=/home/gnoy LANG=C.UTF-8 WSL_INTEROP=/run/WSL/909_interop WAYLAND_DISPLAY=wayland-0 TERM=xterm-256color USER=gnoy DISPLAY=localhost:10.0 SHLVL=0 XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir WSLENV= PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.UbuntuonWindows_2004.2021.825.0_x64__79rhkp1fndgsc:/mnt/c/Users/Gnoy/OneDrive/7496~1/MobaXterm/slash/gnoy_laptopchvmgvoq/bin:/mnt/c/WINDOWS/:/mnt/c/WINDOWS/system32/:/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/Gnoy/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/JetBrains/PyCharm Community Edition 2021.2.2/bin:/mnt/c/WINDOWS/sysnative/ HOSTTYPE=x86_64 PULSE_SERVER=/mnt/wslg/PulseServer _=./wslconnect LIBGL_ALWAYS_INDIRECT=1 SSH_TTY=/dev/pts/2 SSH_CONNECTION=127.0.0.1 53558 127.0.0.1 22030 SSH_CLIENT=127.0.0.1 53558 22030
+gnoy@LAPTOP-CHVMGVOQ:~$ cat /proc/$$/environ
+SHELL=/bin/bashLIBGL_ALWAYS_INDIRECT=1WSL_DISTRO_NAME=UbuntuNAME=LAPTOP-CHVMGVOQPWD=/home/gnoyLOGNAME=gnoyMOTD_SHOWN=update-motdHOME=/home/gnoyLANG=C.UTF-8WSL_INTEROP=/run/WSL/8_interopLS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:WAYLAND_DISPLAY=wayland-0SSH_CONNECTION=127.0.0.1 48170 127.0.0.1 22008LESSCLOSE=/usr/bin/lesspipe %s %sTERM=xterm-256colorLESSOPEN=| /usr/bin/lesspipe %sUSER=gnoyDISPLAY=localhost:10.0SHLVL=2XDG_RUNTIME_DIR=/mnt/wslg/runtime-dirSSH_CLIENT=127.0.0.1 48170 22008WSLENV=XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktopVAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.UbuntuonWindows_2004.2021.825.0_x64__79rhkp1fndgsc:/mnt/c/Users/Gnoy/OneDrive/7496~1/MobaXterm/slash/gnoy_laptopchvmgvoq/bin:/mnt/c/WINDOWS/:/mnt/c/WINDOWS/system32/:/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/Gnoy/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/JetBrains/PyCharm Community Edition 2021.2.2/bin:/mnt/c/WINDOWS/sysnative/:/snap/bin:/mnt/c/Program Files/Oracle/VirtualBox:/mnt/c/Program Files/Oracle/VirtualBoxSSH_TTY=/dev/pts/1HOSTTYPE=x86_64PULSE_SERVER=/mnt/wslg/PulseServer_=/usr/bin/bashgnoy@LAPTOP-CHVMGVOQ:~$
+gnoy@LAPTOP-CHVMGVOQ:~$ env
+SHELL=/bin/bash
+LIBGL_ALWAYS_INDIRECT=1
+WSL_DISTRO_NAME=Ubuntu
+NAME=LAPTOP-CHVMGVOQ
+PWD=/home/gnoy
+LOGNAME=gnoy
+MOTD_SHOWN=update-motd
+HOME=/home/gnoy
+LANG=C.UTF-8
+WSL_INTEROP=/run/WSL/8_interop
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+WAYLAND_DISPLAY=wayland-0
+SSH_CONNECTION=127.0.0.1 48170 127.0.0.1 22008
+LESSCLOSE=/usr/bin/lesspipe %s %s
+TERM=xterm-256color
+LESSOPEN=| /usr/bin/lesspipe %s
+USER=gnoy
+DISPLAY=localhost:10.0
+SHLVL=3
+XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir
+SSH_CLIENT=127.0.0.1 48170 22008
+WSLENV=
+XDG_DATA_DIRS=/usr/local/share:/usr/share:/var/lib/snapd/desktop
+VAGRANT_WSL_ENABLE_WINDOWS_ACCESS=1
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/WindowsApps/CanonicalGroupLimited.UbuntuonWindows_2004.2021.825.0_x64__79rhkp1fndgsc:/mnt/c/Users/Gnoy/OneDrive/7496~1/MobaXterm/slash/gnoy_laptopchvmgvoq/bin:/mnt/c/WINDOWS/:/mnt/c/WINDOWS/system32/:/mnt/c/Program Files (x86)/VMware/VMware Workstation/bin/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/Gnoy/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files/JetBrains/PyCharm Community Edition 2021.2.2/bin:/mnt/c/WINDOWS/sysnative/:/snap/bin:/mnt/c/Program Files/Oracle/VirtualBox:/mnt/c/Program Files/Oracle/VirtualBox:/mnt/c/Program Files/Oracle/VirtualBox
+SSH_TTY=/dev/pts/1
+HOSTTYPE=x86_64
+PULSE_SERVER=/mnt/wslg/PulseServer
+_=/usr/bin/env
+gnoy@LAPTOP-CHVMGVOQ:~$
 
 ```
 10. Используя `man`, опишите что доступно по адресам `/proc/<PID>/cmdline`, `/proc/<PID>/exe`.  
