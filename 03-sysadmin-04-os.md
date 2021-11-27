@@ -100,7 +100,7 @@ vagrant@vagrant:~$ sudo lsof -i :19999
 COMMAND PID    USER   FD   TYPE DEVICE SIZE/OFF NODE NAME
 netdata 601 netdata    4u  IPv4  22669      0t0  TCP *:19999 (LISTEN)
 ```
-<img src="https://github.com/gnoy4eg/netology.devops.pub/tree/main/img/netdata.png" alt="---" style="max-width: 100%;" />
+![netdata](https://github.com/gnoy4eg/netology.devops.pub/tree/main/img/netdata.png)
 
 4. Можно ли по выводу `dmesg` понять, осознает ли ОС, что загружена не на настоящем оборудовании, а на системе виртуализации?  
 Ответ:  Да, система понимает, что загружается как ВМ. Так же она понимает на каком гипервизоре осуществляется загрузка.  
