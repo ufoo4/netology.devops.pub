@@ -536,29 +536,30 @@ C:\WINDOWS\system32>arp -a
  ---
 ## Задание для самостоятельной отработки (необязательно к выполнению)
 
- 8*. Установите эмулятор EVE-ng.  
- Инструкция по установке - https://github.com/svmyasnikov/eve-ng  
- Выполните задания на lldp, vlan, bonding в эмуляторе EVE-ng.    
+
+8*. Установите эмулятор EVE-ng.  
+Инструкция по установке - https://github.com/svmyasnikov/eve-ng  
+Выполните задания на lldp, vlan, bonding в эмуляторе EVE-ng.    
 Ответ: Эмулятор установил. Работает. Прикольная штука, но у меня пока не получилось с локального компа добраться до виртуалок (management Cloud0 у меня не работает)  
 По этой причине будут скриншоты, а не копипаста с консоли  
----
-###Топология
+
+###Топология  
 
 [Топология сети](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/topology.png)  
 
----
-####HOST ubnt32769
+
+####HOST ubnt32769  
 
 [lldp-host32769](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/lldp-host32769.png)  
 [ipa-netplan-bond-ping-host32769](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/ipa-netplan-bond-ping-host32769.png)  
 
----
-####HOST ubnt32770
+
+####HOST ubnt32770  
 [lldp-host32770](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/lldp-host32770.png)  
-[ipa-netplan-bond-vlan-host32770](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/ipa-netplan-bond-vlan-host32770.png)
+[ipa-netplan-bond-vlan-host32770](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/ipa-netplan-bond-vlan-host32770.png)  
 [ping-host32770](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/ping-host32770.png)  
 
----
-####HOST ubnt32773
-[ipa-netplan-vlan-ping-host32773](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/ipa-netplan-vlan-ping-host32773.png)
+
+####HOST ubnt32773  
+[ipa-netplan-vlan-ping-host32773](https://github.com/gnoy4eg/netology.devops.pub/blob/main/img/ipa-netplan-vlan-ping-host32773.png)  
  
