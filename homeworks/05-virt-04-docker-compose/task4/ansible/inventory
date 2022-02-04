@@ -1,0 +1,13 @@
+[nodes:children]
+manager
+
+[manager]
+node01.netology.cloud ansible_host=84.252.130.202
+
+
+
+[slaves:children]
+testvm
+
+[testvm]
+node02.netology.cloud ansible_host=84.252.131.146
