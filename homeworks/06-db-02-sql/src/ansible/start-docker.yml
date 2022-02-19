@@ -1,0 +1,9 @@
+---
+  - hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: centos
+
+    tasks:
+      - name: Run postgresql in docker
+        command: docker-compose -f /opt/docker-conf/docker-compose.yml up --detach
