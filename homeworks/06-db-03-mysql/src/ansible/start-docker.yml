@@ -1,0 +1,9 @@
+---
+  - hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: centos
+
+    tasks:
+      - name: Run mysql in docker
+        command: docker-compose -f /opt/sync-files/docker-compose.yml up --detach

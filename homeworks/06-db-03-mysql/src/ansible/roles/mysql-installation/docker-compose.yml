@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    container_name: mysql-8
+    environment:
+      MYSQL_DATABASE: 'test_db'
+      MYSQL_USER: 'mysqluser'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'rootpassword'
+    volumes:
+      - /opt/mysql/dbdata:/var/lib/mysql
+      - /opt/mysql/backup:/backup
+    ports:
+      - ${POSTGRES_PORT:-3306}:3306

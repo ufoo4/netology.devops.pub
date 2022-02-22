@@ -1,0 +1,26 @@
+---
+  - name: Add docker repository
+    command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+  - name: Installing docker package
+    yum: >
+      name={{ item }}
+      state=present
+      update_cache=yes
+    with_items:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+  - name: Enable docker daemon
+    systemd:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Install docker-compose from official github repo
+    remote_user: centos
+    get_url:
+      url : https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-{{ ansible_system }}-{{ ansible_userspace_architecture }}
+      dest: /usr/bin/docker-compose
+      mode: 'u+x,g+x'
