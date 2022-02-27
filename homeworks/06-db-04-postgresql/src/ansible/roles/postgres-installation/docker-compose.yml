@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    container_name: postgres-13
+    environment:
+      - POSTGRES_PASSWORD=tmppassword
+      - POSTGRES_USER=tmpuser
+    volumes:
+      - /opt/postgres/dbdata:/var/lib/postgresql/data
+      - /opt/postgres/backup:/backup
+    ports:
+      - ${POSTGRES_PORT:-5432}:5432

@@ -1,0 +1,17 @@
+---
+  - name: Install of Requrements Tools
+    hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: centos
+    roles:
+      - install-tools
+      - configure-hosts-file
+
+  - name: Install Docker Engine
+    hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: centos
+    roles:
+      - postgres-installation

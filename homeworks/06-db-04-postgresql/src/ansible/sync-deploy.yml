@@ -1,0 +1,23 @@
+---
+  - hosts: nodes
+    become: yes
+    become_user: root
+    remote_user: centos
+
+    tasks:
+      - name: Copy docker-compose.yml
+        copy:
+          src: roles/postgres-installation/docker-compose.yml
+          dest: "/opt/sync-files/"
+          owner: root
+          group: root
+          mode: 0644
+        # become: true
+      - name: Copy test_dump.sql
+        copy:
+          src: ../test_data/test_dump.sql
+          dest: "/opt/postgres/backup/"
+          owner: root
+          group: root
+          mode: 0644
+        # become: true
