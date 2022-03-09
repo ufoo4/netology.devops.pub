@@ -107,3 +107,33 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
 - разрешить\увеличить swap (снизится быстродействие)
 - оптимизировать ресурсоемкие запросы к БД
 - провести шардирование таблиц
+
+Доработка ДЗ
+Задача 4
+Дополнительно почитал статью на [Хабре](https://habr.com/ru/company/southbridge/blog/464245/) по OOMKiller'у
+Тогда вижу несколько вариантов решения проблемы.  
+- Радикальный:  
+Отключить OOMKiller (не рекомендуется). Заработает сразу в т.ч. после перезагрузки
+```bash
+sudo -s sysctl -w vm.oom-kill = 0
+sudo echo vm.oom-kill = 0 >>/etc/sysctl.conf
+ ```
+- Опасный:  
+Передать отрицательное значение для параметра ядра oom_score_adj. Чем более отрицательное значение, тем ниже шансы на завершение процесса OOMKiller'ом
+```sql
+postgres=# SELECT pg_backend_pid();
+pg_backend_pid 
+----------------
+    3813
+(1 row)
+```
+```bash
+sudo echo -100 > /proc/3813/oom_score_adj
+```
+- Рекомендуемый (безопасный):  
+Передать параметру vm.overcommit_memory значение 2
+```bash
+echo 2 > /proc/sys/vm/overcommit_memory
+```
+
+Я бы выбрал последний вариант (рекомендуемый\безопасный)
