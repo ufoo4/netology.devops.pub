@@ -108,8 +108,8 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
 - оптимизировать ресурсоемкие запросы к БД
 - провести шардирование таблиц
 
-Доработка ДЗ
-Задача 4
+### Доработка ДЗ  
+Задача 4  
 Дополнительно почитал статью на [Хабре](https://habr.com/ru/company/southbridge/blog/464245/) по OOMKiller'у
 Тогда вижу несколько вариантов решения проблемы.  
 - Радикальный:  
