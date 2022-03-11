@@ -109,8 +109,9 @@ InterfaceError: (InterfaceError) 2013: Lost connection to MySQL server during qu
 - провести шардирование таблиц
 
 ### Доработка ДЗ  
+
 Задача 4  
-Дополнительно почитал статью на [Хабре](https://habr.com/ru/company/southbridge/blog/464245/) по OOMKiller'у.  
+Дополнительно почитал статью на [Хабре](https://habr.com/ru/company/southbridge/blog/464245/) по OOMKiller'у.
 Тогда вижу несколько вариантов решения проблемы.  
 - Радикальный:  
 Отключить OOMKiller (не рекомендуется). Заработает сразу в т.ч. после перезагрузки
@@ -137,3 +138,18 @@ echo 2 > /proc/sys/vm/overcommit_memory
 ```
 
 Я бы выбрал последний вариант (рекомендуемый\безопасный)
+
+### Доработка ДЗ 2
+Задача 2  
+Дополнение:  
+- убедиться, что не используются slow команды `./redis-cli SLOWLOG GET N`
+- отключить huge page на уровне ядра системы `echo never > /sys/kernel/mm/transparent_hugepage/enabled`
+- проверить внутреннюю задержку сервера Redis `./redis-cli --intrinsic-latency 100`
+
+Задача 4  
+Попробую уменьшить риск завершения процесса postmaster OOMKiller'ом.  
+Для этого уменьшу значения потребляемой памяти в конфиг-файле `postgresql.conf` у [параметров](https://postgrespro.ru/docs/postgrespro/9.5/runtime-config-resource#runtime-config-resource-memory):
+- shared_buffers
+- work_mem
+- maintenance_work_mem
+- temp_buffers
