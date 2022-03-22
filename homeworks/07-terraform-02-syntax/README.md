@@ -50,7 +50,13 @@ AWS предоставляет достаточно много бесплатн�
   <img width="791" height="596" src="./img/ls_active.png">
 </p>  
 
-Токен создал
+Токен создал как переменную окружения:
+```bash
+[gnoy@manjarokde-ws01 terraform]$ export YC_TOKEN=yc iam create-token
+[gnoy@manjarokde-ws01 terraform]$ echo $YC_TOKEN
+t1.9euelZqPx4......01oP_FOI3I3DjsUhLz7Ydn5......
+```
+И как json-файл:
 ```bash
 [gnoy@manjarokde-ws01 terraform]$ yc iam key create --service-account-name netology-robot -o key.json
 id: ajebsdnrpvd
