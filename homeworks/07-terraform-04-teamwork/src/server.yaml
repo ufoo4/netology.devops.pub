@@ -1,0 +1,16 @@
+repos:
+- id: github.com/gnoy4eg/terraform-cloud
+  workflow: mywf
+  apply_requirements: [approved, mergeable]
+  allowed_overrides: [workflow]
+  allow_custom_workflows: true
+workflows:
+  mywf:
+    plan: 
+      steps:
+        - init:
+            extra_args: ["-lock=false"]
+        - plan:
+            extra_args: ["-lock=false"]
+    apply:
+      steps: [apply]
