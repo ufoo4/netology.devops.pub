@@ -5,11 +5,11 @@
 1. Создайте свой собственный (или используйте старый) публичный репозиторий на github с произвольным именем.  
 ===  
 Ответ:  
-[Ссылка](https://github.com/gnoy4eg/08-ansible-02-playbook) на новый репозиторий
+[Ссылка](https://github.com/gnoy4eg/08.ansible.netology.devops.pub) на новый репозиторий
 2. Скачайте [playbook](./playbook/) из репозитория с домашним заданием и перенесите его в свой репозиторий.  
 ===  
 Ответ:  
-playbook [перенес](https://github.com/gnoy4eg/08-ansible-02-playbook/tree/main/src/playbook)
+playbook [перенес](https://github.com/gnoy4eg/08.ansible.netology.devops.pub/tree/main/src/playbook)
 3. Подготовьте хосты в соответствии с группами из предподготовленного playbook.  
 ===  
 Ответ:  
@@ -38,7 +38,7 @@ clickhouse-01 | SUCCESS => {
 1. Приготовьте свой собственный inventory файл `prod.yml`.  
 ===  
 Ответ:  
-inventory [файл](https://github.com/gnoy4eg/08-ansible-02-playbook/blob/main/src/playbook/inventory/prod.yml) подготовил
+inventory [файл](https://github.com/gnoy4eg/08.ansible.netology.devops.pub/blob/main/src/playbook/inventory/prod.yml) подготовил
 2. Допишите playbook: нужно сделать ещё один play, который устанавливает и настраивает [vector](https://vector.dev).  
 ===  
 Ответ:  
@@ -228,10 +228,10 @@ vector-01                  : ok=3    changed=0    unreachable=0    failed=0    s
 9. Подготовьте README.md файл по своему playbook. В нём должно быть описано: что делает playbook, какие у него есть параметры и теги.  
 ===  
 Ответ:  
-Файл [README.md](https://github.com/gnoy4eg/08-ansible-02-playbook/blob/main/README.md) подготовил
+Файл [README.md](https://github.com/gnoy4eg/08.ansible.netology.devops.pub/blob/main/README.md) подготовил
 
-10. Готовый playbook выложите в свой репозиторий, поставьте тег `08-ansible-02-playbook` на фиксирующий коммит, в ответ предоставьте ссылку на него.  
+10. Готовый playbook выложите в свой репозиторий, поставьте тег `08.ansible.netology.devops.pub` на фиксирующий коммит, в ответ предоставьте ссылку на него.  
 ===  
 Ответ:  
 playbook подготовлен, тег добавлен.   
-[Ссылка](https://github.com/gnoy4eg/08-ansible-02-playbook) на репозиторий. 
+[Ссылка](https://github.com/gnoy4eg/08.ansible.netology.devops.pub) на репозиторий. 
