@@ -1,0 +1,6 @@
+projectKey=my-first-projekt
+serverUrl=http://51.250.85.76:9000
+serverVersion=9.1.0.47736
+dashboardUrl=http://51.250.85.76:9000/dashboard?id=my-first-projekt
+ceTaskId=AYFiXpMjnaEJlmP7US7S
+ceTaskUrl=http://51.250.85.76:9000/api/ce/task?id=AYFiXpMjnaEJlmP7US7S
