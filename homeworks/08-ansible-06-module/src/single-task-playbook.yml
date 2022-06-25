@@ -1,0 +1,12 @@
+---
+- name: test my_own_module
+  hosts: localhost
+  tasks:
+  - name: run module
+    my_own_module:
+      path: '/tmp/test-file.txt'
+      content: 'NEW Message. TEST'
+    register: testout
+  - name: dump test output
+    debug:
+      msg: '{{ testout }}'
