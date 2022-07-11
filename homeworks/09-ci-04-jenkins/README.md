@@ -647,7 +647,7 @@ Finished: SUCCESS
 </details>
 <br>
 
-5. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./pipeline).  
+5. Создать Scripted Pipeline, наполнить его скриптом из [pipeline](./src/pipeline/).  
 Ответ:  
 <p align="left">
   <img width="1100" height="850" src="./img/Scripted_Pipeline.png">
