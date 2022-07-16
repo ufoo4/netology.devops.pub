@@ -15,7 +15,7 @@
   <img width="1300" height="750" src="./img/new_project.png">
 </p>
 
-3. Создайте новый репозиторий в gitlab, наполните его [файлами](./src/python-api.py)  
+3. Создайте новый репозиторий в gitlab, наполните его [файлами](./src/project/python-api.py)  
 Ответ:  
 <p align="left">
   <img width="1300" height="750" src="./img/finish_project.png">
