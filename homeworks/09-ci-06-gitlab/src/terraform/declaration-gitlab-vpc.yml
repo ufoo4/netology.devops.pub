@@ -1,0 +1,8 @@
+---
+spec:
+  containers:
+  - image: jetbrains/teamcity-server
+    securityContext:
+      privileged: false
+    stdin: false
+    tty: false
