@@ -71,6 +71,10 @@ Free cloud account имеет следующие ограничения:
   <img width="700" height="700" src="./img/sentry_email.png">
 </p>
 
+<p align="left">
+  <img width="1900" height="1000" src="./img/sentry_allerts.png">
+</p>
+
 ## Задание повышенной сложности
 
 Создайте проект на ЯП python или GO (небольшой, буквально 10-20 строк), подключите к нему sentry SDK и отправьте несколько тестовых событий.
