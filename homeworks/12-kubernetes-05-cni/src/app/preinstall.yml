@@ -1,0 +1,27 @@
+---
+- hosts: kube_control_plane
+  become: yes
+  become_method: sudo
+  gather_facts: yes
+
+  tasks:
+    - name: Create directory
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        owner: centos
+        group: centos
+        mode: 0775
+      with_items:
+        - /home/centos/.kube
+
+    - name: Copy files
+      ansible.builtin.copy:
+        src: /etc/kubernetes/admin.conf
+        dest: /home/centos/.kube/config
+        remote_src: yes
+        directory_mode: yes
+        owner: centos
+        group: centos
+        mode: 0775
+      
