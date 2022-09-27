@@ -7,14 +7,14 @@ resource "yandex_compute_instance" "node01" {
 
   resources {
     cores         = 2
-    memory        = 4
+    memory        = 2
     # core_fraction = 5
   }
 
   boot_disk {
     initialize_params {
       image_id    = "${var.centos-7}"
-      name        = "root-node01"
+      name        = "master-node01"
       type        = "network-hdd"
       size        = "10"
     }

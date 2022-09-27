@@ -5,10 +5,8 @@ resource "local_file" "inventory" {
 
     [all]
     node01.ntlg.cloud ansible_host=${yandex_compute_instance.node01.network_interface.0.nat_ip_address}
-    node02.ntlg.cloud ansible_host=${yandex_compute_instance.node02.network_interface.0.nat_ip_address}
     node03.ntlg.cloud ansible_host=${yandex_compute_instance.node03.network_interface.0.nat_ip_address}
     node04.ntlg.cloud ansible_host=${yandex_compute_instance.node04.network_interface.0.nat_ip_address}
-    node05.ntlg.cloud ansible_host=${yandex_compute_instance.node05.network_interface.0.nat_ip_address}
 
     [kube_control_plane]
     node01.ntlg.cloud
@@ -17,10 +15,8 @@ resource "local_file" "inventory" {
     node01.ntlg.cloud
 
     [kube_node]
-    node02.ntlg.cloud
     node03.ntlg.cloud
     node04.ntlg.cloud
-    node05.ntlg.cloud
 
     [calico_rr]
 
@@ -34,9 +30,7 @@ resource "local_file" "inventory" {
 
   depends_on = [
     yandex_compute_instance.node01,
-    yandex_compute_instance.node02,
     yandex_compute_instance.node03,
-    yandex_compute_instance.node04,
-    yandex_compute_instance.node05
+    yandex_compute_instance.node04
   ]
 }
