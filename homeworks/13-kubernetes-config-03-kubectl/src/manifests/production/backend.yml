@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ba
+  labels:
+    app: ba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ba
+  template:
+    metadata:
+      labels:
+        app: ba
+    spec:
+      containers:
+      - name: ba
+        image: foo4/13-kub-config-01-obj_src-backend
+        ports:
+        - name: ba
+          containerPort: 9000
+        env:
+          - name: DATABASE_URL
+            value: postgres://postgres:postgres@db:5432/news
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+          - mountPath: "/static"
+            name: my-volume
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ba
+spec:
+  selector:
+    app: ba
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc
+spec:
+  storageClassName: "nfs"
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
