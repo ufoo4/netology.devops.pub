@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-ba
+  labels:
+    app: {{ .Release.Name }}-ba
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-ba
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-ba
+    spec:
+      containers:
+      - name: {{ .Release.Name }}-ba
+        image: {{ .Values.image.back }}:{{ .Values.image.latest_tag }}
+        ports:
+        - name: {{ .Release.Name }}-ba
+          containerPort: {{ .Values.ports.back }}
+        env:
+{{- include "back_envs" . | nindent 10 }}
+        resources:
+{{- toYaml .Values.resources | nindent 10 }}
+        volumeMounts:
+          - name: {{ .Values.volume.name_back_front }}
+            mountPath: {{ .Values.volume.path_back_front }}
+      volumes:
+      - name: {{ .Values.volume.name_back_front }}
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
+          

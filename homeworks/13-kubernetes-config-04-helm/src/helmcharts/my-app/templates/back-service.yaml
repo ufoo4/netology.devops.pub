@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-ba
+spec:
+  selector:
+    app: {{ .Release.Name }}-ba
+  ports:
+    - protocol: {{ .Values.ports.protocol }}
+      port: {{ .Values.ports.back }}
+      targetPort: {{ .Values.ports.back }}

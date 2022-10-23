@@ -1,0 +1,50 @@
+replicaCount: 1
+
+spec:
+  storageClassName: nfs-client
+  accessModes_db: 
+    - ReadWriteOnce
+  accessModes_app:
+    - ReadWriteMany
+  capacity_1Gi: 1Gi
+  capacity_500Mi: 500Mi
+  hostPath: /data/pv
+  terminationGracePeriodSeconds: 10
+  type: ClusterIP
+
+image:
+  pg: postgres
+  pg_tag: 13-alpine
+  back: foo4/13-kub-config-01-obj_src-backend
+  latest_tag: latest
+  front: foo4/13-kub-config-01-obj_src-frontend
+
+ports:
+  pg: 5432
+  protocol: TCP
+  back: 9000
+  front_80: 80
+  front_8000: 8000
+
+environment:
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_DB: news
+  PGDATA: /data/pgdata
+  DATABASE_URL: postgres://postgres:postgres@db:5432/news
+  BASE_URL: http://localhost:9000
+
+volume:
+  name_db: pvc-db
+  path_db: /data
+  name_back_front: my-volume
+  path_back_front: /static
+  clime_name: pvc
+
+resources:
+  requests:
+    memory: 64Mi
+    cpu: 250m
+  limits:
+    memory: 128Mi
+    cpu: 500m

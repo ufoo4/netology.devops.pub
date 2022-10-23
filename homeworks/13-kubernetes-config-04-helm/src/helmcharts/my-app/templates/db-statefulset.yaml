@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Release.Name }}-db
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-db
+  serviceName: {{ .Release.Name }}-db
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-db
+    spec:
+      terminationGracePeriodSeconds: {{ .Values.spec.terminationGracePeriodSeconds }}
+      containers:
+      - name: {{ .Release.Name }}-db
+        image: {{ .Values.image.pg }}:{{ .Values.image.pg_tag }}
+        ports:
+        - containerPort: {{ .Values.ports.pg }}
+        env:
+{{- include "db_envs" . | nindent 10 }}
+        volumeMounts:
+          - name: {{ .Values.volume.name_db }}
+            mountPath: {{ .Values.volume.path_db }}
+        resources:
+{{- toYaml .Values.resources | nindent 10 }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ .Values.volume.name_db }}
+    spec:
+      storageClassName: {{ .Values.spec.storageClassName }}
+{{- with .Values.spec.accessModes_db }} 
+      accessModes:
+    {{- toYaml . | nindent 8 }}
+{{- end }}
+      resources:
+        requests:
+          storage: {{ .Values.spec.capacity_1Gi }}

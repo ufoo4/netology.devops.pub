@@ -1,0 +1,201 @@
+---
+# Source: my-app/templates/db-persistentvolume.yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: first-app-pv-db
+spec:
+  storageClassName: nfs-client  
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath:
+    path: /data/pv
+---
+# Source: my-app/templates/persistentvolumeclaim.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: first-app-pvc
+spec:
+  storageClassName: nfs-client
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Mi
+---
+# Source: my-app/templates/back-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-app-ba
+spec:
+  selector:
+    app: first-app-ba
+  ports:
+    - protocol: TCP
+      port: 9000
+      targetPort: 9000
+---
+# Source: my-app/templates/db-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-app-db
+spec:
+  selector:
+    app: first-app-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  type: ClusterIP
+---
+# Source: my-app/templates/front-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: first-app-fr
+spec:
+  selector:
+    app: first-app-fr
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+---
+# Source: my-app/templates/back-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-app-ba
+  labels:
+    app: first-app-ba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: first-app-ba
+  template:
+    metadata:
+      labels:
+        app: first-app-ba
+    spec:
+      containers:
+      - name: first-app-ba
+        image: foo4/13-kub-config-01-obj_src-backend:latest
+        ports:
+        - name: first-app-ba
+          containerPort: 9000
+        env:
+          - name: DATABASE_URL
+            value: postgres://postgres:postgres@db:5432/news
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+          - name: my-volume
+            mountPath: /static
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: first-app-pvc
+---
+# Source: my-app/templates/front-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: first-app-fr
+  labels:
+    app: first-app-fr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: first-app-fr
+  template:
+    metadata:
+      labels:
+        app: first-app-fr
+    spec:
+      containers:
+      - name: first-app-fr
+        image: foo4/13-kub-config-01-obj_src-frontend:latest
+        ports:
+        - name: first-app-fr
+          containerPort: 80
+        env:
+          - name: BASE_URL
+            value: http://localhost:9000
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+        volumeMounts:
+          - mountPath: /static
+            name: my-volume
+      volumes:
+      - name: my-volume
+        persistentVolumeClaim:
+          claimName: first-app-pvc
+---
+# Source: my-app/templates/db-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: first-app-db
+spec:
+  selector:
+    matchLabels:
+      app: first-app-db
+  serviceName: first-app-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: first-app-db
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: first-app-db
+        image: postgres:13-alpine
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_PASSWORD
+            value: postgres
+          - name: POSTGRES_USER
+            value: postgres
+          - name: POSTGRES_DB
+            value: news
+          - name: PGDATA
+            value: /data/pgdata
+        volumeMounts:
+          - name: pvc-db
+            mountPath: /data
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
+          requests:
+            cpu: 250m
+            memory: 64Mi
+  volumeClaimTemplates:
+  - metadata:
+      name: pvc-db
+    spec:
+      storageClassName: nfs-client 
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
