@@ -1,0 +1,30 @@
+#cloud-config
+users:
+- name: ubuntu
+  sudo: ['ALL=(ALL) NOPASSWD:ALL']
+
+bootcmd:
+- rm /var/www/html/index.html
+
+packages:
+- php
+
+write_files:
+- content: |
+    <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="utf-8">
+          <title>my-site</title>
+        </head>
+        <body>
+          <h3>Hi!</h3> <br>
+          <big><big>Web-server:</big></big> <br>
+          <?php echo $_SERVER['SERVER_ADDR'] ?>
+          <br>
+          <img src="https://storage.yandexcloud.net/gny-201222/avatar" alt="avatar" />
+        </body>
+      </html>
+  path: /var/www/html/index.php
+  owner: root:root
+  permissions: '0644'
