@@ -27,7 +27,7 @@
 <Error><Code>AccessDenied</Code><Message>Access Denied</Message><Resource>/gny-201222/avatar</Resource><RequestId>d4b06e166e8af68c</RequestId></Error>%
 ```
 Как видно, доступ ограничен.   
-Дополнительно [СКРИНШОТ](./src/img/access_denied.png) из браузера
+Дополнительно [СКРИНШОТ](./img/access_denied.png) из браузера
 
 
 ---
